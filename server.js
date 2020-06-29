@@ -4,11 +4,11 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
-const keys = require('./config/keys');
+const keys = require('./backend/config/keys');
 
-require('./models/user.model');
-require('./models/exercise.model');
-require('./services/passport');
+require('./backend/models/user.model');
+require('./backend/models/exercise.model');
+require('./backend/services/passport');
 
 
 
@@ -31,7 +31,7 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-require('./routes/auth_routes')(app);
+require('./backend/routes/auth_routes')(app);
 
 
 mongoose.connect(keys.mongoURI, {useNewUrlParser: true, useCreateIndex: true});
@@ -41,8 +41,8 @@ connection.once('open', () => {
     console.log("MongoDB database connection established successfully");
 });
 
-const exercisesRouter = require('./routes/exercises');
-const usersRouter = require('./routes/users');
+const exercisesRouter = require('./backend/routes/exercises');
+const usersRouter = require('./backend/routes/users');
 
 app.use('/exercises', exercisesRouter);
 app.use('/users', usersRouter);
