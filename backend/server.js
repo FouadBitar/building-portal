@@ -33,8 +33,8 @@ app.use(express.json());
 
 require('./routes/auth_routes')(app);
 
-const uri = process.env.ATLAS_URI;
-mongoose.connect(uri, {useNewUrlParser: true, useCreateIndex: true});
+
+mongoose.connect(keys.mongoURI, {useNewUrlParser: true, useCreateIndex: true});
 
 const connection = mongoose.connection;
 connection.once('open', () => {
