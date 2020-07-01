@@ -4,13 +4,10 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
-const keys = require('./backend/config/keys');
+const keys = require('./config/keys');
 
-require('./backend/models/user.model');
-require('./backend/models/exercise.model');
-require('./backend/services/passport');
-
-
+require('./models/user.model');
+require('./services/passport');
 
 
 require('dotenv').config();
@@ -24,16 +21,18 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-
-const PORT = process.env.PORT || 5000;
-
-
 app.use(cors());
 app.use(express.json());
 
-require('./backend/routes/auth_routes')(app);
+
+require('./routes/auth_routes')(app);
 
 
+const usersRouter = require('./routes/users');
+app.use('/users', usersRouter);
+
+
+//connect to database
 mongoose.connect(keys.mongoURI, {useNewUrlParser: true, useCreateIndex: true});
 
 const connection = mongoose.connection;
@@ -41,15 +40,8 @@ connection.once('open', () => {
     console.log("MongoDB database connection established successfully");
 });
 
-const exercisesRouter = require('./backend/routes/exercises');
-const usersRouter = require('./backend/routes/users');
-
-app.use('/exercises', exercisesRouter);
-app.use('/users', usersRouter);
-
-
-
-
+//start app on port
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`server is running on port: ${PORT}`);
 });
