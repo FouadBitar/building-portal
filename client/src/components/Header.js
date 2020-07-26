@@ -3,7 +3,20 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 class Header extends Component {
-    renderContent(){
+
+    renderAdminContent() {
+        switch(this.props.auth) {
+            case null:
+                return;
+            default:
+                if(this.props.auth.role === "admin") {
+                    return (<li><a href="/admin">Admin</a></li>);
+                }
+                return;
+        }
+    }
+    
+    renderAuthContent(){
         switch(this.props.auth) {
             case null:
                 return;
@@ -12,7 +25,6 @@ class Header extends Component {
             default:
                 return (<li><a href="/api/logout">logout</a></li>);
         }
-
     }
 
     render() {
@@ -20,13 +32,18 @@ class Header extends Component {
             <nav>
                 <div className="nav-wrapper">
                     <Link 
-                        to={this.props.auth ? '/surveys' : '/'} 
+                        to={this.props.auth ? '/posts' : '/'} 
                         className="left brand-logo"
                     >
                         Building Portal 
                     </Link>
+                    
                     <ul className="right">
-                        {this.renderContent()}
+                        <li><a href={this.props.auth ? '/posts' : '/'}>Post Dashboard</a></li>
+                        <li><a href={this.props.auth ? '/amenities' : '/'}>Ammenity Reservation</a></li>
+                        <li><a href="/location">Location</a></li>
+                        {this.renderAdminContent()}
+                        {this.renderAuthContent()}
                     </ul>
                 </div>
             </nav>

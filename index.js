@@ -1,12 +1,14 @@
 /* eslint-disable no-template-curly-in-string */
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); //.set('debug', true)
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const keys = require('./config/keys');
 
-require('./models/user.model');
+require('./models/User');
+require('./models/Post');
+require('./models/ReservationDate');
 require('./services/passport');
 
 
@@ -25,11 +27,11 @@ app.use(cors());
 app.use(express.json());
 
 
-require('./routes/auth_routes')(app);
+require('./routes/authRoutes')(app);
+require('./routes/postRoutes')(app);
+require('./routes/dateRoutes')(app);
+require('./routes/testingRoutes')(app);
 
-
-const usersRouter = require('./routes/users');
-app.use('/users', usersRouter);
 
 
 //connect to database
@@ -49,6 +51,18 @@ if (process.env.NODE_ENV === 'production') {
         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
     });
 }
+
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const msg = {
+  to: 'fouadobitar@gmail.com',
+  from: 'fouad@fouadbitar.com',
+  subject: 'Sending with Twilio SendGrid is Fun',
+  text: 'and easy to do anywhere, even with Node.js',
+  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+};
+sgMail.send(msg);
+
 
 
 //start app on port

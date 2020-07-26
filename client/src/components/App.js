@@ -5,16 +5,22 @@ import * as actions from '../actions';
 
 import Header from './Header';
 import Landing from './Landing';
-const Dashboard = () => <h2>Dashboard</h2>;
-const SurveryNew = () => <h2>SurveryNew</h2>;
+import Dashboard from './Dashboard';
+import PostNew from './create_posts/PostNew';
+import DisplayPost from './display_posts/DisplayPost';
+import AmenityReservation from './AmenityReservation';
+import ReservationList from './ReservationList';
+import MapContainer from './MapContainer';
+import Admin from './administration_components/Admin';
+import Email from './administration_components/Email';
 
 class App extends Component {
 
     componentDidMount() {
         this.props.fetchUser();
+        this.props.fetchPosts();
+        this.props.fetchDates();
     }
-
-
 
     render() {
         return( 
@@ -23,8 +29,14 @@ class App extends Component {
                     <div className="container">
                         <Header />
                         <Route exact path="/" component={Landing} />
-                        <Route exact path="/surveys" component={Dashboard} />
-                        <Route exact path="/surveys/new" component={SurveryNew} />
+                        <Route exact path="/posts" component={Dashboard} />
+                        <Route exact path="/posts/new" component={PostNew} />
+                        <Route exact path="/posts/:id/info" component={DisplayPost} />
+                        <Route exact path="/amenities" component={ReservationList} />
+                        <Route exact path="/amenities/new" component={AmenityReservation} />
+                        <Route exact path="/location" component={MapContainer} />
+                        <Route exact path="/admin" component={Admin} />
+                        <Route exact path="/admin/emails" component={Email} />
                     </div>
                 </BrowserRouter>
             </div> 

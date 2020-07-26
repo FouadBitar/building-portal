@@ -1,68 +1,53 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# Features
 
-In the project directory, you can run:
+### Administration Batch Information Emails
+- Display on navbar a component/page that allows admins to access a specific form that allows them to send out emails to the entire building residence condos.
+- feature that allows users to be identified based on being admin or resident
+- feature that allows the admin user to send out emails to specified residents i.e. tower 1 or 2, to say that   today we are cleaning the garbage shoot, or today there will be a fire alarm test.
+- Form that allows the admin to type in the email
 
-### `npm start`
+### Book an elevator
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Package Notification
+- send an email whenever a resident recieves a package
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### Contact Building Management For Information with Form to send Email
+- Display a form that when submitted sends an email to the administration of the building
+- Allow administration user to log in and change the email that the user sends the email to
 
-### `npm test`
+### Amenity Reservations
+- allow the residents to make a reservation to use one of the activity rooms
+    - on this reservation page there will be a)form to select the day which the user would like to reserve and b) the time, for this there will be booking per 30 minutes
+    - display to show the user's reservations that have not been completed/canceled/passed
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Rental Postings
+- sorting feature that allows you to organise the posts based on the date added
+- can add a search feature that allows you to search for a specific post
+- additional feature is adding the specific dates of availability for the renting post
 
-### `npm run build`
+### Messaging With the Renters
+- feature that allows you to chat with the renters on the site
+- feature that sends you notifications through email whenever a chat has a new message
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Create Equivalent database using SQL
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### Create using test driven development
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Migrate the code to typescript
 
-### `npm run eject`
+### Learn a deployment pipeline
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Completed Features
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Website Navigation Features
+- add a navbar where the default page is the post board, with another option for adding an amenity reservation
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Building Location Information Tab
+- could display on a google maps api where the building is located for reference
 
-## Learn More
+# Ideas
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### https://www.condocommunities.com/
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
