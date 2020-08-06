@@ -16,9 +16,6 @@ const User = mongoose.model('users');
  * - Could use JWT instead of passport-local
  */
 
-
-
-
 passport.use('login', new LocalStrategy(
     async (username, password, done) => {
         try {
@@ -41,55 +38,22 @@ passport.use('login', new LocalStrategy(
     }
 ));
 
+const cookieExtractor = req =>{
+    let token = null;
+    if(req && req.cookies){
+        token = req.cookies["access_token"];
+    }
+    return token;
+}
+
 passport.use(new JWTStrategy({
     secretOrKey: 'top_secret',
-    jwtFromRequest: ExtractJWT.fromUrlQueryParameter('secret_token')
-}, async (token, done) => {
-    try {
-        return done(null, token.user);
-    } catch(error) {
-        done(error);
-    }
+    jwtFromRequest: cookieExtractor
+}, async (payload, done) => {
+    User.findOne({ username: payload.user.username }, (err, user) => {
+        if(err) return done(err, false);
+        if(user) return done(null, user);
+        else return done(null, false);
+    })
 }));
- 
 
-/* passport.serializeUser((user, done) => {
-    done(null, user.id);
-})
-
-passport.deserializeUser(function(id, done) {
-    User.findById(id, function (err, user) {
-      if (err) { return done(err); }
-      done(null, user);
-    });
-  }); */
-
-
-
-/* passport.use(new LocalStrategy(
-    function(username, password, done) {
-        User.findOne({ username: username }, function(err, user) {
-            if (err) { return done(err); }
-            if (!user) { return done(null, false); }
-            if (user.password != password) { return done(null, false); }
-            return done(null, user);
-        })
-    }
-)); */
-
-/* passport.use(new JWTStrategy({
-    jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-    secretOrKey   : 'secret'
-},
-function (jwtPayload, done) {
-
-    //find the user in db if needed
-    return User.findById(jwtPayload.id)
-        .then(user => {
-            return done(null, user);
-        })
-        .catch(err => {
-            return done(err);
-        });
-}
-)); */

@@ -67,3 +67,4 @@
 
 ### https://www.condocommunities.com/
 
+- I realize now that using jwt was not the best idea for this case as our website does not require scale but just secure networks and for it to function properly, so cookie sessions and storing the information on the server would probably have been the best choice.

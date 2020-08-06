@@ -6,6 +6,7 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const keys = require('./config/keys');
 const bodyparser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 require('./models/User');
 require('./models/Post');
@@ -19,17 +20,18 @@ require('dotenv').config();
 const app = express();
 
 app.use(bodyparser.urlencoded({ extended: false }));
-// app.use(bodyparser.json());
+app.use(bodyparser.json());
 /* app.use(
     cookieSession({
         maxAge: 30*24*60*60*1000,
         keys: [keys.cookieKey]
     })
 ); */
+
 app.use(passport.initialize());
 // app.use(passport.session());
 app.use(cors());
-// app.use(express.json());
+app.use(cookieParser());
 
 
 require('./routes/localAuthRoutes')(app);
