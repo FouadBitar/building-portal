@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 class Dashboard extends Component {
+
     renderPosts() {
         return(_.map(this.props.posts, (post) => {
             return (
@@ -39,7 +40,6 @@ class Dashboard extends Component {
                 Dashboard
                 
                 {this.renderContent()}
-               
                 
                 <div className="fixed-action-btn">
                     <Link to="/posts/new" className="btn-floating btn-large grey">

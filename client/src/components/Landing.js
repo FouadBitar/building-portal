@@ -1,13 +1,17 @@
 import React from 'react';
 
-const Landing = () => {
-    return (
+const Landing = function() {
+    return(
         <div style={{ textAlign: 'center' }}>
             <h1>
                 Building Portal
             </h1>
-        </div>
+         </div>
     );
-};
+}
 
 export default Landing;
+
+
+
+

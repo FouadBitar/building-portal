@@ -13,13 +13,19 @@ import ReservationList from './ReservationList';
 import MapContainer from './MapContainer';
 import Admin from './administration_components/Admin';
 import Email from './administration_components/Email';
+import Login from './Login';
 
 class App extends Component {
 
     componentDidMount() {
         this.props.fetchUser();
-        this.props.fetchPosts();
-        this.props.fetchDates();
+    }
+
+    componentDidUpdate() {
+        if(this.props.auth) {
+            this.props.fetchPosts();
+            this.props.fetchDates();
+        }
     }
 
     render() {
@@ -29,6 +35,7 @@ class App extends Component {
                     <div className="container">
                         <Header />
                         <Route exact path="/" component={Landing} />
+                        <Route exact path="/login" component={Login} />
                         <Route exact path="/posts" component={Dashboard} />
                         <Route exact path="/posts/new" component={PostNew} />
                         <Route exact path="/posts/:id/info" component={DisplayPost} />
@@ -44,4 +51,10 @@ class App extends Component {
     }
 };
 
-export default connect(null, actions)(App);
+function mapStateToProps(state) {
+    return {
+        auth: state.auth
+    };
+}
+
+export default connect(mapStateToProps, actions)(App);

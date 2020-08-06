@@ -8,10 +8,24 @@ const ReservationDate = mongoose.model('reservationDates');
 
 module.exports = app => {
 
+    // GET ALL USERS
     app.get('/test/users', async (req, res) => {
         const users = await User.find({});
         res.send(users);
     });
+
+    // ADD USER
+    app.post('/test/users/new', async (req, res) => {
+        const newUser = new User({
+            username: 'fouad@fouadbitar.com',
+            password: 'ghost',
+            role: 'user'
+        });
+
+        await newUser.save();
+        res.send('all good boss');
+    });
+
 
     app.post('/test/updateusertoadmin', async (req, res) => {
         const user = await User.updateOne(

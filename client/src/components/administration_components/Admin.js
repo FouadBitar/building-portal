@@ -7,7 +7,7 @@ class Admin extends Component {
             <div>
                 <ul className="nav nav-pills nav-fill">
                     <li className="nav-item">
-                        <a className="nav-link active" href="/admin/emails">Send Batch Email to Residents</a>
+                        <a className="nav-link active" href="/admin/emails">Batch Emails</a>
                     </li>
                 </ul>
             </div>

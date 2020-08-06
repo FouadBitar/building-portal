@@ -7,7 +7,6 @@ import * as actions from '../../actions';
 
 const PostFormReview = (props) => {
     const reviewFields = _.map(formFields, field => {
-        console.log(props);
         return(
             <div key={field.name}>
                 <label>{field.label}</label>

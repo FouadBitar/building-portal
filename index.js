@@ -5,6 +5,7 @@ const mongoose = require('mongoose'); //.set('debug', true)
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const keys = require('./config/keys');
+const bodyparser = require('body-parser');
 
 require('./models/User');
 require('./models/Post');
@@ -12,22 +13,26 @@ require('./models/ReservationDate');
 require('./services/passport');
 
 
+
 require('dotenv').config();
 
 const app = express();
-app.use(
+
+app.use(bodyparser.urlencoded({ extended: false }));
+// app.use(bodyparser.json());
+/* app.use(
     cookieSession({
         maxAge: 30*24*60*60*1000,
         keys: [keys.cookieKey]
     })
-);
+); */
 app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.session());
 app.use(cors());
-app.use(express.json());
+// app.use(express.json());
 
 
-require('./routes/authRoutes')(app);
+require('./routes/localAuthRoutes')(app);
 require('./routes/postRoutes')(app);
 require('./routes/dateRoutes')(app);
 require('./routes/testingRoutes')(app);
@@ -52,16 +57,16 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
-const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-const msg = {
-  to: 'fouadobitar@gmail.com',
-  from: 'fouad@fouadbitar.com',
-  subject: 'Sending with Twilio SendGrid is Fun',
-  text: 'and easy to do anywhere, even with Node.js',
-  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-};
-sgMail.send(msg);
+// const sgMail = require('@sendgrid/mail');
+// sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+// const msg = {
+//   to: 'fouadobitar@gmail.com',
+//   from: 'fouad@fouadbitar.com',
+//   subject: 'Sending with Twilio SendGrid is Fun',
+//   text: 'and easy to do anywhere, even with Node.js',
+//   html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+// };
+// sgMail.send(msg);
 
 
 

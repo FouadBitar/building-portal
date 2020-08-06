@@ -7,6 +7,7 @@ import EmailFormField from './EmailFormField';
 /**
  * - Feature that allows the admin to upload files or images?
  * - Form field should include weather or not they want to send the email to the entire tower 1 or 2
+ * - Add emails to the models of the users or residents
  */
 class EmailForm extends Component {
 
@@ -19,8 +20,13 @@ class EmailForm extends Component {
     render() {
         return(
             <div>
-                <form>
+                <form onSubmit={this.props.handleSubmit(this.props.onEmailSubmit)}>
                     {this.renderFields()}
+                    <button onClick={this.props.onCancelClick} className="red btn" type="button">Cancel</button>
+                    <button type="submit" className="teal btn-flat right white-text">
+                        Next
+                        <i className="material-icons right">done</i>
+                    </button>
                 </form>
             </div>
         );

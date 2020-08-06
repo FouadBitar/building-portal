@@ -1,3 +1,10 @@
+# TODO 
+
+## Write down the most important features that you think you have to do
+## Estimate how long each feature is going to take to finish
+## Estimate what features you will be able to finish by the end of the project timeline (2 months alloted)
+
+- FOCUS ON LEARNING AND BUILDING A GREAT WEBSITE, NOT ON HOW LONG IT IS GOING TO TAKE, SO WRITE OUT YOUR ESTIMATIONS FOR THE TIME AT THE START OF EACH WEEK, BUT THEN MOVE YOUR MINDSET TO BUILDING AND LEARNING AS IT IS MORE RELAXING AND AN INDUCIVE ENVIRONMENT TO LEARNING HOW TO BUILD SOFTWARE.
 
 # Features
 
@@ -8,6 +15,15 @@
 - Form that allows the admin to type in the email
 
 ### Book an elevator
+
+### Administration Features
+- Allow the administration to send out one specific email to a certain resident
+- Update a user's information, so their apartment number
+
+### Authentication without Oauth
+- Allow the administration to also then have the ability to register a user as a resident and send them their preliminary password
+- the user should then have the ability to access the website and change the password
+- the google oauth is going to be kept there for looks or removed
 
 ### Package Notification
 - send an email whenever a resident recieves a package
