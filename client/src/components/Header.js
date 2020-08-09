@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import * as actions from '../actions';
 
 class Header extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.onLogout = this.onLogout.bind(this);
+    }
 
     renderAdminContent() {
         switch(this.props.auth) {
@@ -15,15 +22,17 @@ class Header extends Component {
                 return;
         }
     }
+
+    onLogout() {
+        this.props.logoutUser(this.props.history);
+    }
     
     renderAuthContent(){
-        switch(this.props.auth) {
-            case null:
-                return;
+        switch(this.props.auth.isAuthenticated) {
             case false: 
                 return (<li><Link to="/login">Login</Link></li>);
             default:
-                return (<li><a href="/api/logout">logout</a></li>);
+                return (<li><button onClick={this.onLogout} className="btn waves-effect waves-light">Logout</button></li>);
         }
     }
 
@@ -32,16 +41,16 @@ class Header extends Component {
             <nav>
                 <div className="nav-wrapper">
                     <Link 
-                        to={this.props.auth ? '/posts' : '/'} 
+                        to={this.props.auth.isAuthenticated ? '/posts' : '/'} 
                         className="left brand-logo"
                     >
                         Building Portal 
                     </Link>
                     
                     <ul className="right">
-                        <li><a href={this.props.auth ? '/posts' : '/'}>Post Dashboard</a></li>
-                        <li><a href={this.props.auth ? '/amenities' : '/'}>Ammenity Reservation</a></li>
-                        <li><a href="/location">Location</a></li>
+                        <li><Link to='/posts'>Post Dashboard</Link></li>
+                        <li><Link to='/amenities'>Ammenity Reservation</Link></li>
+                        <li><Link to='/location'>Location</Link></li>
                         {this.renderAdminContent()}
                         {this.renderAuthContent()}
                     </ul>
@@ -57,4 +66,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, actions)(withRouter(Header));

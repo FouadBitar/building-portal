@@ -51,9 +51,9 @@ passport.use(new JWTStrategy({
     jwtFromRequest: cookieExtractor
 }, async (payload, done) => {
     User.findOne({ username: payload.user.username }, (err, user) => {
-        if(err) return done(err, false);
-        if(user) return done(null, user);
-        else return done(null, false);
-    })
+        if(err)  done(err, false);
+        if(user)  done(null, user);
+        else  done(null, false);
+    });
 }));
 

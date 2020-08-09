@@ -1,25 +1,20 @@
 const _ = require('lodash');
 const mongoose = require('mongoose');
 const ObjectID = require('mongodb').ObjectID;
-const requireLogin = require('../middlewares/requireLogin');
+const isAuthenticated = require('../middlewares/isAuthenticated');
 
 const Post = mongoose.model('posts');
 const Comment = mongoose.model('comments');
 
 module.exports = app => {
 
-    app.get('/api/posts', requireLogin, async (req, res) => {
-        const posts = await Post.find({});
-
-        res.send(posts);
-    });
-    app.get('/api/posts/test', async (req, res) => {
+    app.get('/api/posts', isAuthenticated, async (req, res) => {
         const posts = await Post.find({});
 
         res.send(posts);
     });
 
-    app.post('/api/posts', requireLogin, async (req, res) => {
+    app.post('/api/posts', isAuthenticated, async (req, res) => {
         const { title, cost, body } = req.body;
 
         const post = new Post({
@@ -35,7 +30,7 @@ module.exports = app => {
         res.send(p);
     });
 
-    app.post('/api/comments', requireLogin, async(req, res) => {
+    app.post('/api/comments', isAuthenticated, async(req, res) => {
         const comment = new Comment({
             date: Date.now(),
             body: req.body.commentText
@@ -64,7 +59,7 @@ module.exports = app => {
         res.send('all is great boss');
     });
 
-    app.put('/api/comments', requireLogin, async(req, res) => {
+    app.put('/api/comments', isAuthenticated, async(req, res) => {
         const post = await Post.findOne({
             _id: req.body.postId
         });
@@ -77,7 +72,7 @@ module.exports = app => {
         res.send('all good boss');
     });
 
-    app.post('/api/comments/delete', requireLogin, async(req, res) => {
+    app.post('/api/comments/delete', isAuthenticated, async(req, res) => {
         const post = await Post.updateOne(
             { _id: req.body.postId },
             { $pull: 
@@ -92,7 +87,7 @@ module.exports = app => {
         res.send('all good boss');
     });
 
-    app.post('/api/posts/delete', requireLogin, async(req, res) => {
+    app.post('/api/posts/delete', isAuthenticated, async(req, res) => {
         const post = await Post.deleteOne({ _id: req.body.postId });
         
         res.send('all good boss');

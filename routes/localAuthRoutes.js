@@ -1,5 +1,6 @@
 const passport = require('passport');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const isAuthenticated = require('../middlewares/isAuthenticated');
 
 module.exports = app => {
 
@@ -20,28 +21,21 @@ module.exports = app => {
             catch(error) {
                 return next(error);
             }
-        }, { successRedirect: '/posts' })(req, res, next);
+        })(req, res, next);
     });
     
 
-
     app.get('/api/logout', passport.authenticate('jwt', { session: false }), (req, res) => {
+        //handle user is not authenticated and tries to logout
         res.clearCookie('access_token');
-        res.json({ user: { username: "", role: "" }, success: true })
-    })
-
-    /* app.get('/api/logout', async (req,res) => {
-        req.logout();
-        res.redirect('/');
-    }); */
-
-    app.get('/api/current_user', passport.authenticate('jwt', { session: false }), (req, res) => {
-        res.send(req.user);
+        res.json({ isAuthenticated: false, user: { username: "", role: "" }, success: true })
     });
 
-    // app.get('/api/current_user', passport.authenticate('jwt', { session: false }),
-    // function(req, res) {
-    //     res.send(req.user);
-    // }
-// );
+
+    //req.user is not persistent because we have no session storing this information, so we have to 
+    //authenticate the user each time and then use the user value, so how can we pass the user value here from
+    //the middleware isAuthenticated?
+    app.get('/api/current_user', isAuthenticated, (req, res) => {
+        res.status(200).json({ isAuthenticated: true, user: { username: req.user.username, role: req.user.role } });
+    });
 };

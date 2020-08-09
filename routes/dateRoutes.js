@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const mongoose = require('mongoose');
-const requireLogin = require('../middlewares/requireLogin');
+const requireLogin = require('../middlewares/isAuthenticated');
 
 const Reservation = mongoose.model('reservations');
 const ReservationDate = mongoose.model('reservationDates');

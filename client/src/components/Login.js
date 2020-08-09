@@ -1,6 +1,8 @@
-import _ from 'lodash';
 import React from 'react';
-import { reduxForm, Field } from 'redux-form';
+import { connect } from 'react-redux';
+import { reduxForm, Field, formValueSelector } from 'redux-form';
+import { withRouter } from 'react-router-dom';
+import * as actions from '../actions';
 
 
 
@@ -19,10 +21,23 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => {
     );
 }
 
-const Login = props => {
+
+
+let Login = props => {
+
+
+    const onSubmit = async (event) => {
+        event.preventDefault();
+
+        console.log(props.passwordValue);
+        const user = { username: props.usernameValue, password: props.passwordValue };
+        props.loginUser(user, props.history);
+    }
+
+
     return (
         <div>
-            <form action="/api/login" method="post">
+            <form>
                 <div>
                     <Field 
                         name="username"
@@ -42,7 +57,7 @@ const Login = props => {
                     />
                 </div>
                 <div>
-                    <button type="submit" className="btn red">Submit</button>
+                    <button onClick={onSubmit} className="btn red">Login</button>
                 </div>
             </form>
         </div>
@@ -58,6 +73,21 @@ function validate(value) {
     return error;
 }
 
-export default reduxForm({
+Login = reduxForm({
     form: 'loginForm'
 })(Login);
+
+const selector = formValueSelector('loginForm');
+Login = connect(state => {
+    const usernameValue = selector(state, 'username');
+    const passwordValue = selector(state, 'password');
+    return {
+        usernameValue,
+        passwordValue,
+        auth: state.auth
+    }
+}, actions)(Login);
+
+Login = withRouter(Login);
+
+export default Login;

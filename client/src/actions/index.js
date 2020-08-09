@@ -1,10 +1,41 @@
 import axios from 'axios';
 import { FETCH_USER, FETCH_POSTS, FETCH_DATES } from './types';
 
+export const loginUser = (credentials, history) => async dispatch => {
+    const res = await axios.post('/api/login', credentials); 
+    
+    if(res.status !== 401) {
+        const user = res.data;
+        
+        dispatch({ type: FETCH_USER, payload: user });
+        history.push('/posts');
+    }
+    else {
+        console.log('logged in failed\n');
+        
+        // history.push('/login');
+        dispatch({ type: FETCH_USER, payload: { isAuthenticated: false, user: { username: "", role: "" } } })
+    }
+}
+
+export const logoutUser = (history) => async dispatch => {
+    const res = await axios.get('/api/logout');
+
+    console.log(res.data);
+    const { user } = res.data;
+    history.push('/');
+    dispatch({ type: FETCH_USER, payload: user });
+}
+
 export const fetchUser = () => async dispatch => {
     const res = await axios.get('/api/current_user');
-
-    dispatch({ type: FETCH_USER, payload: res.data });    
+    
+    if(res.status !== 401) {
+        dispatch({ type: FETCH_USER, payload: res.data });          
+    }
+    else {
+        dispatch({ type: FETCH_USER, payload: { isAuthenticated: false, user: { username: "", role: "" } } }); 
+    }
 };
 
 export const fetchPosts = () => async dispatch => {
@@ -69,6 +100,8 @@ export const createReservation = (state, history) => async dispatch => {
     history.push('/amenities');
     dispatch({ type: FETCH_DATES, payload: res.data });
 }
+
+
 
 
 

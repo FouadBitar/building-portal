@@ -26,6 +26,13 @@ module.exports = app => {
         res.send('all good boss');
     });
 
+    // GET ALL POSTS
+    app.get('/api/posts/test', async (req, res) => {
+        const posts = await Post.find({});
+
+        res.send(posts);
+    });
+
 
     app.post('/test/updateusertoadmin', async (req, res) => {
         const user = await User.updateOne(

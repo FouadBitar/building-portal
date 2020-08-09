@@ -1,10 +1,8 @@
 # TODO 
 
-## Write down the most important features that you think you have to do
-## Estimate how long each feature is going to take to finish
-## Estimate what features you will be able to finish by the end of the project timeline (2 months alloted)
 
-- FOCUS ON LEARNING AND BUILDING A GREAT WEBSITE, NOT ON HOW LONG IT IS GOING TO TAKE, SO WRITE OUT YOUR ESTIMATIONS FOR THE TIME AT THE START OF EACH WEEK, BUT THEN MOVE YOUR MINDSET TO BUILDING AND LEARNING AS IT IS MORE RELAXING AND AN INDUCIVE ENVIRONMENT TO LEARNING HOW TO BUILD SOFTWARE.
+- set up protected routes 
+- make password be sent in encrypted format through login form
 
 # Features
 
@@ -67,4 +65,5 @@
 
 ### https://www.condocommunities.com/
 
+# Notes
 - I realize now that using jwt was not the best idea for this case as our website does not require scale but just secure networks and for it to function properly, so cookie sessions and storing the information on the server would probably have been the best choice.
