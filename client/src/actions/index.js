@@ -112,7 +112,7 @@ export const createReservation = (state, history) => async dispatch => {
 
 
 export const createBatchEmail = (formValues) => async dispatch => {
-    console.log(formValues);    
+    console.log(formValues);
 }
 
 
