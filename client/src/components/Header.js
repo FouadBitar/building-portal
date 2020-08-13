@@ -16,8 +16,8 @@ class Header extends Component {
             case null:
                 return;
             default:
-                if(this.props.auth.role === "admin") {
-                    return (<li><a href="/admin">Admin</a></li>);
+                if(this.props.auth.user.role === "admin") {
+                    return (<li><Link to="/admin">Admin</Link></li>);
                 }
                 return;
         }
@@ -29,6 +29,8 @@ class Header extends Component {
     
     renderAuthContent(){
         switch(this.props.auth.isAuthenticated) {
+            case null: 
+                return;
             case false: 
                 return (<li><Link to="/login">Login</Link></li>);
             default:

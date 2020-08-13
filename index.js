@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser');
 require('./models/User');
 require('./models/Post');
 require('./models/ReservationDate');
+require('./models/Email');
 require('./services/passport');
 
 
@@ -37,6 +38,7 @@ app.use(cookieParser());
 require('./routes/localAuthRoutes')(app);
 require('./routes/postRoutes')(app);
 require('./routes/dateRoutes')(app);
+require('./routes/sendGridRoutes');
 require('./routes/testingRoutes')(app);
 
 

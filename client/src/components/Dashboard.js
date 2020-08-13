@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+// When you login, it should refresh the posts that it has retrieved, have to refresh the page to do that now
 class Dashboard extends Component {
 
     renderPosts() {
@@ -37,8 +38,6 @@ class Dashboard extends Component {
     render() {
         return (
             <div>
-                Dashboard
-                
                 {this.renderContent()}
                 
                 <div className="fixed-action-btn">

@@ -17,7 +17,6 @@ import Login from './Login';
 
 class App extends Component {
 
-    //need to await to see if user is logged in before displaying page if page is refreshed.
     componentDidMount() {
         this.props.fetchUser();
         this.props.fetchPosts();
@@ -36,30 +35,14 @@ class App extends Component {
                         <Route exact path="/login">
                             <Login/>
                         </Route>
-                        <PrivateRoute exact path="/posts" isAuthenticated={this.props.auth.isAuthenticated}>
-                            <Dashboard/>
-                        </PrivateRoute>
-                        <PrivateRoute exact path="/posts/new" isAuthenticated={this.props.auth.isAuthenticated}>
-                            <PostNew/>
-                        </PrivateRoute>
-                        <PrivateRoute exact path="/posts/:id/info" isAuthenticated={this.props.auth.isAuthenticated}>
-                            <DisplayPost/>
-                        </PrivateRoute>
-                        <PrivateRoute exact path="/amenities" isAuthenticated={this.props.auth.isAuthenticated}>
-                            <ReservationList/>
-                        </PrivateRoute>
-                        <PrivateRoute exact path="/amenities/new" isAuthenticated={this.props.auth.isAuthenticated}>
-                            <AmenityReservation/>
-                        </PrivateRoute>
-                        <PrivateRoute exact path="/location" isAuthenticated={this.props.auth.isAuthenticated}>
-                            <MapContainer/>
-                        </PrivateRoute>
-                        <PrivateRoute exact path="/admin" isAuthenticated={this.props.auth.isAuthenticated}>
-                            <Admin/>
-                        </PrivateRoute>
-                        <PrivateRoute exact path="/admin/emails" isAuthenticated={this.props.auth.isAuthenticated}>
-                            <Email/>
-                        </PrivateRoute>
+                        <PrivateRoute exact path="/posts" component={Dashboard} isAuthenticated={this.props.auth.isAuthenticated} />  
+                        <PrivateRoute exact path="/posts/new" component={PostNew} isAuthenticated={this.props.auth.isAuthenticated} />
+                        <PrivateRoute exact path="/posts/:id/info" component={DisplayPost} isAuthenticated={this.props.auth.isAuthenticated} />
+                        <PrivateRoute exact path="/amenities" component={ReservationList} isAuthenticated={this.props.auth.isAuthenticated} />
+                        <PrivateRoute exact path="/amenities/new" component={AmenityReservation} isAuthenticated={this.props.auth.isAuthenticated} />
+                        <PrivateRoute exact path="/location" component={MapContainer} isAuthenticated={this.props.auth.isAuthenticated} />
+                        <PrivateRoute exact path="/admin" component={Admin} isAuthenticated={this.props.auth.isAuthenticated} />
+                        <PrivateRoute exact path="/admin/emails" component={Email} isAuthenticated={this.props.auth.isAuthenticated} />
                     </div>
                 </BrowserRouter>
             </div> 
@@ -67,22 +50,24 @@ class App extends Component {
     }
 };
 
-// A wrapper for Route that redirects to the login page if not authenticated
-function PrivateRoute({ children, isAuthenticated, ...rest }) {
+
+function PrivateRoute({ component: Component , isAuthenticated, match, ...rest }) {
     const isLoaded = (isAuthenticated === null) ? false : true;
+
+    // If async authentication call is not returned, display loading sign
     return(
         <Route 
             {...rest}
-            render={({ location }) =>  
+            render={(props) =>  
             !isLoaded ? (
                 <div>loading</div>
             ) :
             isAuthenticated ? 
-                (children) : 
+                <Component {...rest} {...props}/>: 
                 (<Redirect 
                     to={{
                         pathname: '/login',
-                        state: { from: location }
+                        state: { from: props.location }
                     }}
                 />) 
             }

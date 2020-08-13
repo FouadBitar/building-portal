@@ -21,19 +21,20 @@ export const loginUser = (credentials, history) => async dispatch => {
 export const logoutUser = (history) => async dispatch => {
     const res = await axios.get('/api/logout');
 
-    console.log(res.data);
-    const { user } = res.data;
+    const { user, isAuthenticated } = res.data;
     history.push('/');
-    dispatch({ type: FETCH_USER, payload: user });
+    dispatch({ type: FETCH_USER, payload: { user, isAuthenticated } });
 }
 
 export const fetchUser = () => async dispatch => {
-    const res = await axios.get('/api/current_user');
-    
-    if(res.status !== 401) {
-        dispatch({ type: FETCH_USER, payload: res.data });          
+    try{
+        const res = await axios.get('/api/current_user');
+        
+        const { user, isAuthenticated } = res.data;
+        dispatch({ type: FETCH_USER, payload: { isAuthenticated, user } });          
     }
-    else {
+    catch(err) {
+        console.log(err);
         dispatch({ type: FETCH_USER, payload: { isAuthenticated: false, user: { username: "", role: "" } } }); 
     }
 };
@@ -51,10 +52,18 @@ export const fetchDates = () => async dispatch => {
 }
 
 export const createPost = (values, history) => async dispatch => {
-    const res = await axios.post('/api/posts', values);
+    try{
+        //create post, if it succeeds retrieve new array of posts to display on dashboard
+        await axios.post('/api/posts', values);
 
-    history.push('/posts');
-    dispatch({ type: FETCH_USER, payload: res.data });
+        const res = await axios.get('/api/posts');
+
+        history.push('/posts');
+        dispatch({ type: FETCH_POSTS, payload: res.data });
+    }
+    catch(error) {
+        console.log(error);
+    }
 };
 
 export const createPostComment = (comment, postId) => async dispatch => {
@@ -99,6 +108,11 @@ export const createReservation = (state, history) => async dispatch => {
 
     history.push('/amenities');
     dispatch({ type: FETCH_DATES, payload: res.data });
+}
+
+
+export const createBatchEmail = (formValues) => async dispatch => {
+    console.log(formValues);    
 }
 
 

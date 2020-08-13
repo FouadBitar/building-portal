@@ -1,7 +1,6 @@
 # TODO 
 
 
-- set up protected routes 
 - make password be sent in encrypted format through login form
 
 # Features
@@ -60,6 +59,12 @@
 
 ### Building Location Information Tab
 - could display on a google maps api where the building is located for reference
+
+### General
+- set up protected routes
+
+
+
 
 # Ideas
 

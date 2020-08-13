@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+// Component that displays the action options for sending emails
 class EmailHome extends Component {
 
     render() {

@@ -29,7 +29,6 @@ let Login = props => {
     const onSubmit = async (event) => {
         event.preventDefault();
 
-        console.log(props.passwordValue);
         const user = { username: props.usernameValue, password: props.passwordValue };
         props.loginUser(user, props.history);
     }
