@@ -12,8 +12,9 @@ import AmenityReservation from './AmenityReservation';
 import ReservationList from './ReservationList';
 import MapContainer from './MapContainer';
 import Admin from './administration_components/Admin';
-import Email from './administration_components/Email';
+import Email from './administration_components/email_components/Email';
 import Login from './Login';
+import Register from './administration_components/register_components/Register';
 
 class App extends Component {
 
@@ -43,6 +44,7 @@ class App extends Component {
                         <PrivateRoute exact path="/location" component={MapContainer} isAuthenticated={this.props.auth.isAuthenticated} />
                         <PrivateRoute exact path="/admin" component={Admin} isAuthenticated={this.props.auth.isAuthenticated} />
                         <PrivateRoute exact path="/admin/emails" component={Email} isAuthenticated={this.props.auth.isAuthenticated} />
+                        <PrivateRoute exact path="/admin/register/:role" component={Register} isAuthenticated={this.props.auth.isAuthenticated} />
                     </div>
                 </BrowserRouter>
             </div> 

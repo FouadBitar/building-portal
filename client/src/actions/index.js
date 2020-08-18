@@ -7,8 +7,8 @@ export const loginUser = (credentials, history) => async dispatch => {
     if(res.status !== 401) {
         const user = res.data;
         
-        dispatch({ type: FETCH_USER, payload: user });
         history.push('/posts');
+        dispatch({ type: FETCH_USER, payload: user });
     }
     else {
         console.log('logged in failed\n');
@@ -112,7 +112,22 @@ export const createReservation = (state, history) => async dispatch => {
 
 
 export const createBatchEmail = (formValues) => async dispatch => {
-    console.log(formValues);
+    await axios.post('/api/emails', formValues);
+    
+    console.log('all done');
+}
+
+//do we have to dispatch?
+export const createUser = (user, history) => async dispatch => {
+    await axios.post('/api/admin/new/user', user);
+
+    history.push('/admin');
+}
+
+export const createAdmin = (admin, history) => async dispatch => {
+    await axios.post('/api/admin/new/admin', admin);
+
+    history.push('/admin');
 }
 
 

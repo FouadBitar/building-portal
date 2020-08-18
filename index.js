@@ -15,30 +15,28 @@ require('./models/Email');
 require('./services/passport');
 
 
-
 require('dotenv').config();
 
-const app = express();
 
+const app = express();
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
-/* app.use(
-    cookieSession({
-        maxAge: 30*24*60*60*1000,
-        keys: [keys.cookieKey]
-    })
-); */
-
 app.use(passport.initialize());
-// app.use(passport.session());
 app.use(cors());
 app.use(cookieParser());
 
 
+// SendGrid setup
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(keys.sendGridKey);
+
+
+// routes
 require('./routes/localAuthRoutes')(app);
 require('./routes/postRoutes')(app);
 require('./routes/dateRoutes')(app);
-require('./routes/sendGridRoutes');
+require('./routes/adminRoutes')(app);
+require('./routes/sendGridRoutes')(app, sgMail);
 require('./routes/testingRoutes')(app);
 
 
@@ -60,18 +58,6 @@ if (process.env.NODE_ENV === 'production') {
         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
     });
 }
-
-// const sgMail = require('@sendgrid/mail');
-// sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-// const msg = {
-//   to: 'fouadobitar@gmail.com',
-//   from: 'fouad@fouadbitar.com',
-//   subject: 'Sending with Twilio SendGrid is Fun',
-//   text: 'and easy to do anywhere, even with Node.js',
-//   html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-// };
-// sgMail.send(msg);
-
 
 
 //start app on port

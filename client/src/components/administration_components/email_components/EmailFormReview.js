@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import formFields from './emailFormFields';
-import * as actions from '../../actions/index';
+import * as actions from '../../../actions/index';
 
 class EmailFormReview extends Component {
 

@@ -20,8 +20,7 @@ const userSchema = new Schema({
     appartmentNumber: {
         type: Number,
         min: 300,
-        max: 4210,
-        unique: true,
+        max: 4010,
         required: false
     },
     role: {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class Admin extends Component {
 
@@ -7,7 +8,11 @@ class Admin extends Component {
             <div>
                 <ul className="nav nav-pills nav-fill">
                     <li className="nav-item">
-                        <a className="nav-link active" href="/admin/emails">Batch Emails</a>
+                        <Link className="nav-link active" to="/admin/emails">Batch Emails</Link>
+                        <br />
+                        <Link className="nav-link active" to={`/admin/register/${"admin"}`} >Register Admin</Link>
+                        <br />
+                        <Link className="nav-link active" to={`/admin/register/${"user"}`} >Register User</Link>
                     </li>
                 </ul>
             </div>
