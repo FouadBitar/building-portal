@@ -1,69 +1,61 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, Field, formValueSelector } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import { withRouter } from 'react-router-dom';
-import * as actions from '../actions';
+import { loginUser } from '../actions';
 
 
-
-const renderField = ({ input, label, type, meta: { touched, error } }) => {
+const renderField = ({ input, label, type, meta: { touched, error } }, ...rest) => {
     return(
-        <div>
-            <label>{label}</label>
-            <div>
-                <input {...input} type={type} ></input>
-                <div className="red-text" style={{ marginBottom: '10px' }}>
+        <div className="form-group row justify-content-center">
+            <label className="col-sm-1 col-form-label">{label}</label>
+            <div className="col-sm-3">
+                <input className="form-control" {...input} type={type} ></input>
+                <div className="font-italic text-danger" style={{ marginBottom: '10px' }}>
                     {touched && (error && <span>{error}</span>)}
                 </div>
-                
             </div>
         </div>
     );
 }
 
-
-
 let Login = props => {
 
-
-    const onSubmit = async (event) => {
-        event.preventDefault();
-
-        const user = { username: props.usernameValue, password: props.passwordValue };
+    const onSubmit = ({ username, password }) => {
+        const user = { username: username, password: password };
         props.loginUser(user, props.history);
     }
 
-
     return (
-        <div>
+        <div className="container my-5">
             <form>
                 <div>
                     <Field 
                         name="username"
                         type="text"
-                        label="username"
+                        label="Username"
                         component={renderField}
-                        validate={validate}
+                        validate={validateField}
                     />
                 </div>
                 <div>
                     <Field 
                         name="password"
                         type="password"
-                        label="password"
+                        label="Password"
                         component={renderField}
-                        validate={validate}
+                        validate={validateField}
                     />
                 </div>
-                <div>
-                    <button onClick={onSubmit} className="btn red">Login</button>
+                <div className="row justify-content-center">
+                    <button onClick={props.handleSubmit(onSubmit)} type="submit" className="btn btn-primary">Login</button>
                 </div>
             </form>
         </div>
     );
 }
 
-function validate(value) {
+function validateField(value) {
     var error = "";
 
     //check if value exists
@@ -75,18 +67,7 @@ function validate(value) {
 Login = reduxForm({
     form: 'loginForm'
 })(Login);
-
-const selector = formValueSelector('loginForm');
-Login = connect(state => {
-    const usernameValue = selector(state, 'username');
-    const passwordValue = selector(state, 'password');
-    return {
-        usernameValue,
-        passwordValue,
-        auth: state.auth
-    }
-}, actions)(Login);
-
+Login = connect(null, { loginUser })(Login);
 Login = withRouter(Login);
 
 export default Login;

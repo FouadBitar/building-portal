@@ -26,17 +26,12 @@ app.use(cors());
 app.use(cookieParser());
 
 
-// SendGrid setup
-const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(keys.sendGridKey);
-
-
 // routes
 require('./routes/localAuthRoutes')(app);
 require('./routes/postRoutes')(app);
 require('./routes/dateRoutes')(app);
 require('./routes/adminRoutes')(app);
-require('./routes/sendGridRoutes')(app, sgMail);
+require('./routes/sendGridRoutes')(app);
 require('./routes/testingRoutes')(app);
 
 

@@ -1,36 +1,35 @@
 # TODO 
 
+1 - UI
+    * display the post list and post details next to it once it is clicked
+    * add some custom css styling 
+2 - Error handling
+3 - add edit/update post functionality
+
+
+IDEAS:
+- add a page that showcases photos of the building is amenities in addition to its location
+- make sure all your routes adhere to REST-ful API standard
 
 # Features
-
-### Administration Batch Information Emails
-- Display on navbar a component/page that allows admins to access a specific form that allows them to send out emails to the entire building residence condos.
-- Give the admin the option to select an email to send to all the residents of tower 1 or 2
-- Give the admin the option to select from a scrolling list the specific residents they would like to send the email to
-- feature that allows users to be identified based on being admin or resident
-- feature that allows the admin user to send out emails to specified residents i.e. tower 1 or 2, to say that   today we are cleaning the garbage shoot, or today there will be a fire alarm test.
-- Form that allows the admin to type in the email
-- Boilerplate for sending emails (Mailer)
-
-### Admin registers a user
-- the admin should be able to register a user
-- the username and first login password should be sent to the user (through sendgrid)
-- the user should then have the ability to access the website and change the password
-
-### Book an elevator
 
 ### Administration Features
 - Allow the administration to send out one specific email to a certain resident
 - Update a user's information, so their apartment number
+- send an email whenever a package has been recieved (package notification) - i.e. the admin can send email through condo number and name search from package
+
+### Administration Batch Information Emails
+<!-- - Navbar should display component available to admins only (regular users should not be allowed access to these routes)  -->
+- Admin should be able to send out emails to entire residence i.e. tower 1 or 2
+
+### Admin registers a user
+<!-- - the admin should be able to register a user or another admin user -->
+
+### Book an elevator
+
 
 ### Local Authentication with JWT and Passport 
 
-### Package Notification
-- send an email whenever a resident recieves a package
-
-### Contact Building Management For Information with Form to send Email
-- Display a form that when submitted sends an email to the administration of the building
-- Allow administration user to log in and change the email that the user sends the email to
 
 ### Amenity Reservations
 - allow the residents to make a reservation to use one of the activity rooms
@@ -48,7 +47,7 @@
 
 ### Create Equivalent database using SQL
 
-### Create using test driven development
+### Develop using Test Driven Development
 
 ### Migrate the code to typescript
 

@@ -36,6 +36,6 @@ module.exports = app => {
     //authenticate the user each time and then use the user value, so how can we pass the user value here from
     //the middleware isAuthenticated?
     app.get('/api/current_user', isAuthenticated, (req, res) => {
-        res.status(200).json({ isAuthenticated: true, user: { username: req.user.username, role: req.user.role } });
+        res.status(200).json(req.user);
     });
 };

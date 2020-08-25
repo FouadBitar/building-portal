@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import * as actions from '../actions';
+import { logoutUser } from '../actions';
 
 class Header extends Component {
-
-    constructor(props) {
-        super(props);
-
-        this.onLogout = this.onLogout.bind(this);
-    }
 
     renderAdminContent() {
         switch(this.props.auth) {
@@ -17,14 +11,10 @@ class Header extends Component {
                 return;
             default:
                 if(this.props.auth.user.role === "admin") {
-                    return (<li><Link to="/admin">Admin</Link></li>);
+                    return (<li className="nav-item"><Link className="nav-link" to="/admin">Admin</Link></li>);
                 }
                 return;
         }
-    }
-
-    onLogout() {
-        this.props.logoutUser(this.props.history);
     }
     
     renderAuthContent(){
@@ -32,30 +22,34 @@ class Header extends Component {
             case null: 
                 return;
             case false: 
-                return (<li><Link to="/login">Login</Link></li>);
+                return (<Link className="btn btn-primary" to="/login">Login</Link>);
             default:
-                return (<li><button onClick={this.onLogout} className="btn waves-effect waves-light">Logout</button></li>);
+                return (
+                    <button className="btn btn-outline-primary" onClick={() => this.props.logoutUser(this.props.history)}>
+                        Logout
+                    </button>
+                );
         }
     }
 
     render() {
         return(
-            <nav>
-                <div className="nav-wrapper">
-                    <Link 
-                        to={this.props.auth.isAuthenticated ? '/posts' : '/'} 
-                        className="left brand-logo"
-                    >
-                        Building Portal 
-                    </Link>
-                    
-                    <ul className="right">
-                        <li><Link to='/posts'>Post Dashboard</Link></li>
-                        <li><Link to='/amenities'>Ammenity Reservation</Link></li>
-                        <li><Link to='/location'>Location</Link></li>
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                <Link 
+                    to={this.props.auth.isAuthenticated ? '/posts' : '/'} 
+                    className="navbar-brand"
+                >
+                    Building Portal 
+                </Link>
+                
+                <div className="collapse navbar-collapse">
+                    <ul className="navbar-nav mr-auto">
+                        <li className="nav-item"><Link className="nav-link" to='/posts'>Posts</Link></li>
+                        <li className="nav-item"><Link className="nav-link" to='/amenities'>Ammenities</Link></li>
+                        <li className="nav-item"><Link className="nav-link" to='/location'>Location</Link></li>
                         {this.renderAdminContent()}
-                        {this.renderAuthContent()}
                     </ul>
+                    {this.renderAuthContent()}
                 </div>
             </nav>
         );
@@ -68,4 +62,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, actions)(withRouter(Header));
+export default connect(mapStateToProps, { logoutUser })(withRouter(Header));

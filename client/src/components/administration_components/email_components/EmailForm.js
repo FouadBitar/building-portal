@@ -3,12 +3,9 @@ import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import formFields from './emailFormFields';
 import EmailFormField from './EmailFormField';
+import validateEmails from '../../../utils/validateEmails';
 
-/**
- * - Feature that allows the admin to upload files or images?
- * - Form field should include weather or not they want to send the email to the entire tower 1 or 2
- * - Add emails to the models of the users or residents
- */
+// ADD OPTION TO SEND OUT EMAIL TO ALL OF TOWER 1 OR 2
 class EmailForm extends Component {
 
     renderFields() {
@@ -33,6 +30,21 @@ class EmailForm extends Component {
     }
 }
 
+function validate(values) {
+    const errors = {};
+
+    errors.recipients = validateEmails(values.recipients || '');
+
+    _.each(formFields, ({ name }) => {
+        if (!values[name]) {
+          errors[name] = 'You must provide a value';
+        }
+    });
+
+    return errors;
+}
+
 export default reduxForm({
+    validate,
     form: 'emailForm'
 })(EmailForm);

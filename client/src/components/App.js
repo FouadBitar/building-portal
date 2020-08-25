@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import * as actions from '../actions';
+import { fetchUser, fetchPosts, fetchDates } from '../actions';
 
 import Header from './Header';
 import Landing from './Landing';
@@ -33,18 +33,16 @@ class App extends Component {
                         <Route exact path="/">
                             <Landing/>
                         </Route>
-                        <Route exact path="/login">
-                            <Login/>
-                        </Route>
-                        <PrivateRoute exact path="/posts" component={Dashboard} isAuthenticated={this.props.auth.isAuthenticated} />  
-                        <PrivateRoute exact path="/posts/new" component={PostNew} isAuthenticated={this.props.auth.isAuthenticated} />
-                        <PrivateRoute exact path="/posts/:id/info" component={DisplayPost} isAuthenticated={this.props.auth.isAuthenticated} />
-                        <PrivateRoute exact path="/amenities" component={ReservationList} isAuthenticated={this.props.auth.isAuthenticated} />
-                        <PrivateRoute exact path="/amenities/new" component={AmenityReservation} isAuthenticated={this.props.auth.isAuthenticated} />
-                        <PrivateRoute exact path="/location" component={MapContainer} isAuthenticated={this.props.auth.isAuthenticated} />
-                        <PrivateRoute exact path="/admin" component={Admin} isAuthenticated={this.props.auth.isAuthenticated} />
-                        <PrivateRoute exact path="/admin/emails" component={Email} isAuthenticated={this.props.auth.isAuthenticated} />
-                        <PrivateRoute exact path="/admin/register/:role" component={Register} isAuthenticated={this.props.auth.isAuthenticated} />
+                        <Route exact path="/login" component={Login} />
+                        <PrivateRoute exact path="/posts" component={Dashboard} isAuthenticated={this.props.auth} />  
+                        <PrivateRoute exact path="/posts/new" component={PostNew} isAuthenticated={this.props.auth} />
+                        <PrivateRoute exact path="/posts/:id/info" component={DisplayPost} isAuthenticated={this.props.auth} />
+                        <PrivateRoute exact path="/amenities" component={ReservationList} isAuthenticated={this.props.auth} />
+                        <PrivateRoute exact path="/amenities/new" component={AmenityReservation} isAuthenticated={this.props.auth} />
+                        <PrivateRoute exact path="/location" component={MapContainer} isAuthenticated={this.props.auth} />
+                        <PrivateRoute exact path="/admin" component={Admin} isAuthenticated={this.props.auth} admin={true}/>
+                        <PrivateRoute exact path="/admin/emails" component={Email} isAuthenticated={this.props.auth} admin={true}/>
+                        <PrivateRoute exact path="/admin/register/:role" component={Register} isAuthenticated={this.props.auth} admin={true}/>
                     </div>
                 </BrowserRouter>
             </div> 
@@ -53,19 +51,22 @@ class App extends Component {
 };
 
 
-function PrivateRoute({ component: Component , isAuthenticated, match, ...rest }) {
-    const isLoaded = (isAuthenticated === null) ? false : true;
+function PrivateRoute({ component: Component , isAuthenticated, admin, match, ...rest }) {
+    const isLoaded = (isAuthenticated.isAuthenticated === null) ? false : true;
 
     // If async authentication call is not returned, display loading sign
+    // If user role is "user", do not allow access to admin routes
     return(
         <Route 
             {...rest}
             render={(props) =>  
             !isLoaded ? (
                 <div>loading</div>
-            ) :
-            isAuthenticated ? 
-                <Component {...rest} {...props}/>: 
+            ) : 
+            (isAuthenticated.user.role === "user" && admin ) ?
+                (<Redirect to={{ pathname: '/posts' }} />) :
+            isAuthenticated.isAuthenticated ? 
+                <Component {...rest} {...props}/> : 
                 (<Redirect 
                     to={{
                         pathname: '/login',
@@ -86,4 +87,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, actions)(App);
+export default connect(mapStateToProps, { fetchUser, fetchPosts, fetchDates })(App);

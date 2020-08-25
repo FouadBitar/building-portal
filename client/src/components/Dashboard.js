@@ -2,24 +2,25 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { fetchPosts } from '../actions';
 
-// When you login, it should refresh the posts that it has retrieved, have to refresh the page to do that now
+
 class Dashboard extends Component {
 
-    renderPosts() {
+    componentDidMount() {
+        this.props.fetchPosts();
+    }
+
+    renderPostList() {
         return(_.map(this.props.posts, (post) => {
             return (
-                <div key={post._id} className="row">
-                    <div className="col-md-12">
-                        <div className="card">
-                            <div className="card-body">
-                                <h5 className="card-title">{post.title}</h5>
-                                <p className="card-text">{post.body}</p>
-                                <Link to={`/posts/${post._id}/info`} className="btn blue">View</Link>
-                            </div>
-                        </div>
+                <Link className="list-group-item list-group-item-action" key={post._id} to={`/posts/${post._id}/info`}>
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">{post.title}</h5>
+                        <small>price / month: {post.cost}</small> 
                     </div>
-                </div>
+                    <p className="mb-1">{post.body}</p>
+                </Link>
             );
         }));
     }
@@ -31,19 +32,18 @@ class Dashboard extends Component {
             case false: 
                 return;
             default:
-                return this.renderPosts();
+                return this.renderPostList();
         }
     };
 
     render() {
         return (
             <div>
-                {this.renderContent()}
-                
-                <div className="fixed-action-btn">
-                    <Link to="/posts/new" className="btn-floating btn-large grey">
-                        <i className="material-icons">add</i>
-                    </Link>
+                <Link to="/posts/new" className="btn btn-primary">
+                    Create Post
+                </Link>
+                <div className="list-group">
+                    {this.renderContent()}
                 </div>
             </div>
         );
@@ -56,4 +56,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps, { fetchPosts })(Dashboard);

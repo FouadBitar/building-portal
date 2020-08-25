@@ -1,32 +1,19 @@
-const _ = require('lodash');
-const mongoose = require('mongoose');
 const isAuthenticated = require('../middlewares/isAuthenticated');
+const sendEmail = require('../services/sendEmail');
 
-const Email = mongoose.model('emails');
 
-
-// const msg = {
-//   to: 'fouadobitar@gmail.com',
-//   from: 'fouad@fouadbitar.com',
-//   subject: 'Sending with Twilio SendGrid is Fun',
-//   text: 'and easy to do anywhere, even with Node.js',
-//   html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-// };
-// sgMail.send(msg);
-
-module.exports = (app, sgMail)=> {
+module.exports = (app)=> {
 
     app.post('/api/emails', isAuthenticated, async (req, res) => {
-        console.log(req.body);
-        const { title, subject, body } = req.body;
-        const msg = {
-            to: 'fouadobitar@gmail.com',
-            from: 'fouad@fouadbitar.com',
+        const { subject, body, recipients } = req.body;
+        const email = {
+            to: recipients.split(',').map(email => email.trim()),
             subject: subject,
             text: body
         };
-        sgMail.send(msg);
-        console.log('done');
+
+        sendEmail(email)
+
         res.send('all good');
     });
 

@@ -1,17 +1,19 @@
 import axios from 'axios';
 import { FETCH_USER, FETCH_POSTS, FETCH_DATES } from './types';
 
+//getState - allows you to get the values from the state right after you update it, so you can get the updated values in an action creator
 export const loginUser = (credentials, history) => async dispatch => {
     const res = await axios.post('/api/login', credentials); 
     
     if(res.status !== 401) {
         const user = res.data;
         
+        //awaiting this does not do anything, it is a synchronous call since the javascript object is passed to the dispatch
+        await dispatch({ type: FETCH_USER, payload: user });
         history.push('/posts');
-        dispatch({ type: FETCH_USER, payload: user });
     }
     else {
-        console.log('logged in failed\n');
+        console.log('login failed\n');
         
         // history.push('/login');
         dispatch({ type: FETCH_USER, payload: { isAuthenticated: false, user: { username: "", role: "" } } })
@@ -111,10 +113,10 @@ export const createReservation = (state, history) => async dispatch => {
 }
 
 
-export const createBatchEmail = (formValues) => async dispatch => {
+export const createBatchEmail = (formValues, history) => async dispatch => {
     await axios.post('/api/emails', formValues);
-    
-    console.log('all done');
+
+    history.push('/admin');
 }
 
 //do we have to dispatch?

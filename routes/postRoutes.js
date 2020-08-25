@@ -9,6 +9,9 @@ const Comment = mongoose.model('comments');
 module.exports = app => {
 
     app.get('/api/posts', isAuthenticated, async (req, res) => {
+        //if not authenticated, null
+        if(!req.user.isAuthenticated) res.send(null);
+        
         const posts = await Post.find({});
 
         res.send(posts);
